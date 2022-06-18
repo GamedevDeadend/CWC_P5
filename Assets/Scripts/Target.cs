@@ -3,9 +3,11 @@
 // using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Target : MonoBehaviour
 {
     private GameManager gm;
+
     private Rigidbody targetrb;
 
     private float minForce = 12;
@@ -55,6 +57,10 @@ public class Target : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Destroy(gameObject);
+        if ( !gameObject.CompareTag("Bad Element") )
+        {
+            gm.GameOver();
+        }
     }
 
     
@@ -64,4 +70,6 @@ public class Target : MonoBehaviour
         Instantiate(destructionParticles, transform.position, transform.rotation);
         gm.UpdateScore(scoreReward);
     }
+
+    
 }
