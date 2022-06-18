@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Target : MonoBehaviour
 {
+    private GameManager gm;
     private Rigidbody targetrb;
 
     private float minForce = 12;
@@ -14,9 +15,14 @@ public class Target : MonoBehaviour
     private float randomSpawnXrange = 4;
     private float spawnYpos = 4;
 
+    public int scoreReward;
+
+    public ParticleSystem destructionParticles;
+
     // Start is called before the first frame update
     void Start()
     {
+        gm = GameObject.Find("Game Manager").GetComponent<GameManager>();
         targetrb = GetComponent<Rigidbody>();
 
         targetrb.AddForce(ForceToApply(), ForceMode.Impulse);
@@ -44,6 +50,18 @@ public class Target : MonoBehaviour
     Vector3 SpawnPos()
     {
         return new Vector3(Random.Range(-randomSpawnXrange, randomSpawnXrange), spawnYpos);
+    }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        Destroy(gameObject);
+    }
+
+    
+    private void OnMouseDown()
+    {
+        Destroy(gameObject);
+        Instantiate(destructionParticles, transform.position, transform.rotation);
+        gm.UpdateScore(scoreReward);
     }
 }
