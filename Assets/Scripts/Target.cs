@@ -60,6 +60,7 @@ public class Target : MonoBehaviour
         if ( !gameObject.CompareTag("Bad Element") )
         {
             gm.GameOver();
+            gm.gameActive = false;
         }
     }
 
@@ -68,7 +69,7 @@ public class Target : MonoBehaviour
     {
         Destroy(gameObject);
         Instantiate(destructionParticles, transform.position, transform.rotation);
-        gm.UpdateScore(scoreReward);
+        gm.UpdateScore(scoreReward);  
     }
 
     

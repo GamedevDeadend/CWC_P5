@@ -5,21 +5,33 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.PlayerLoop;
 
 public class GameManager : MonoBehaviour
 {
+    public bool gameActive;
     public TextMeshProUGUI gameOver;
+
+    public GameObject startScreen;
     public Button restartButton;
     private int score;
     public TextMeshProUGUI scoreText;
     public float spawnRate;
     public List<GameObject> targets;
     // Start is called before the first frame update
+
     void Start()
     {
+
+    }
+    public void StartGame(int difficulty)
+    {
+        gameActive = true;
         StartCoroutine(SpawnTargets());
+        startScreen.SetActive(false);
+        spawnRate = difficulty;
         score = 0;
-        scoreText.text = "Score: " + score;
+        UpdateScore(0);
     }
 
     // Update is called once per frame
@@ -32,7 +44,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator SpawnTargets()
     {
-        while (true)
+        while (gameActive)
         {
             yield return new WaitForSeconds(spawnRate);
             int index = targets.Count;
